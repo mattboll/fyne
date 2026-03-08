@@ -8,6 +8,7 @@ type window struct {
 	title              string
 	fullScreen         bool
 	fixedSize          bool
+	transparent        bool
 	focused            bool
 	onClosed           func()
 	onCloseIntercepted func()
@@ -90,6 +91,14 @@ func (w *window) SetContent(obj fyne.CanvasObject) {
 
 func (w *window) SetFixedSize(fixed bool) {
 	w.fixedSize = fixed
+}
+
+func (w *window) Transparent() bool {
+	return w.transparent
+}
+
+func (w *window) SetTransparent(transparent bool) {
+	w.transparent = transparent
 }
 
 func (w *window) SetIcon(_ fyne.Resource) {

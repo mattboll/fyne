@@ -69,9 +69,10 @@ var _ fyne.Window = (*window)(nil)
 type window struct {
 	viewport  *glfw.Window
 	created   bool
-	decorate  bool
-	closing   bool
-	fixedSize bool
+	decorate    bool
+	closing     bool
+	fixedSize   bool
+	transparent bool
 
 	cursor       desktop.Cursor
 	customCursor *glfw.Cursor
@@ -749,6 +750,11 @@ func (w *window) create() {
 		glfw.WindowHint(glfw.Resizable, glfw.True)
 	}
 	glfw.WindowHint(glfw.AutoIconify, glfw.False)
+	if w.transparent {
+		glfw.WindowHint(glfw.TransparentFramebuffer, glfw.True)
+		glfw.WindowHint(glfw.AlphaBits, 8)
+		w.canvas.transparentBg = true
+	}
 	initWindowHints()
 
 	pixWidth, pixHeight := w.screenSize(w.canvas.size)

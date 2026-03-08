@@ -55,6 +55,14 @@ func (w *window) SetFixedSize(bool) {
 	// no-op - all windows are fixed size
 }
 
+func (w *window) Transparent() bool {
+	return false
+}
+
+func (w *window) SetTransparent(bool) {
+	// no-op - transparency is not supported on mobile
+}
+
 func (w *window) CenterOnScreen() {
 	// no-op
 }

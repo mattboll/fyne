@@ -72,6 +72,17 @@ func (w *window) Resize(size fyne.Size) {
 	})
 }
 
+func (w *window) Transparent() bool {
+	return w.transparent
+}
+
+func (w *window) SetTransparent(transparent bool) {
+	w.transparent = transparent
+	if w.created {
+		fyne.LogError("SetTransparent must be called before Show()", nil)
+	}
+}
+
 func (w *window) FixedSize() bool {
 	return w.fixedSize
 }

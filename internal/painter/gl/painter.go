@@ -109,9 +109,20 @@ func (p *painter) UpdateVertexArray(pState ProgramState, name string, size, stri
 // Declare conformity to Painter interface
 var _ Painter = (*painter)(nil)
 
+// transparentBackgrounder is an optional interface implemented by canvases
+// that support a fully transparent GL clear color (e.g. for compositor
+// windows that need to show through to the desktop wallpaper).
+type transparentBackgrounder interface {
+	TransparentBackground() bool
+}
+
 func (p *painter) Clear() {
-	r, g, b, a := theme.Color(theme.ColorNameBackground).RGBA()
-	p.ctx.ClearColor(float32(r)/max16bit, float32(g)/max16bit, float32(b)/max16bit, float32(a)/max16bit)
+	if tc, ok := p.canvas.(transparentBackgrounder); ok && tc.TransparentBackground() {
+		p.ctx.ClearColor(0, 0, 0, 0)
+	} else {
+		r, g, b, a := theme.Color(theme.ColorNameBackground).RGBA()
+		p.ctx.ClearColor(float32(r)/max16bit, float32(g)/max16bit, float32(b)/max16bit, float32(a)/max16bit)
+	}
 	p.ctx.Clear(bitColorBuffer | bitDepthBuffer)
 	p.logError()
 }

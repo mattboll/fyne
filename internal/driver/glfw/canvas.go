@@ -22,10 +22,11 @@ var _ fyne.Canvas = (*glCanvas)(nil)
 type glCanvas struct {
 	common.Canvas
 
-	content fyne.CanvasObject
-	menu    fyne.CanvasObject
-	padded  bool
-	size    fyne.Size
+	content        fyne.CanvasObject
+	menu           fyne.CanvasObject
+	padded         bool
+	transparentBg  bool
+	size           fyne.Size
 
 	onTypedRune func(rune)
 	onTypedKey  func(*fyne.KeyEvent)
@@ -309,4 +310,12 @@ func newCanvas() *glCanvas {
 	c.Initialize(c, c.overlayChanged)
 	c.setContent(&canvas.Rectangle{FillColor: theme.Color(theme.ColorNameBackground)})
 	return c
+}
+
+// TransparentBackground reports whether the GL clear color should be fully
+// transparent instead of the theme background color.  This is checked by
+// the GL painter via an optional interface so that windows with a
+// transparent framebuffer do not paint an opaque background.
+func (c *glCanvas) TransparentBackground() bool {
+	return c.transparentBg
 }

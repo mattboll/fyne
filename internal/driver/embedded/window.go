@@ -41,6 +41,10 @@ func (w *noosWindow) FixedSize() bool {
 
 func (w *noosWindow) SetFixedSize(bool) {}
 
+func (w *noosWindow) Transparent() bool { return false }
+
+func (w *noosWindow) SetTransparent(bool) {}
+
 func (w *noosWindow) CenterOnScreen() {}
 
 func (w *noosWindow) Padded() bool {
