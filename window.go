@@ -100,6 +100,22 @@ type Window interface {
 	// This can be useful to set a key handler for the window, for example.
 	Canvas() Canvas
 
+	// Transparent returns whether this window has a transparent background.
+	// When true, the window's canvas background is fully transparent, allowing
+	// the desktop or compositor background to show through.
+	// This must be called before Show() to take effect on some platforms.
+	//
+	// Since: 2.8
+	Transparent() bool
+	// SetTransparent requests a transparent background for this window.
+	// When enabled, the window framebuffer supports alpha compositing and
+	// the canvas background is set to transparent instead of the theme color.
+	// This is useful for overlay panels, HUDs, or desktop shell components.
+	// Must be called before Show() for the framebuffer hint to take effect.
+	//
+	// Since: 2.8
+	SetTransparent(bool)
+
 	// Clipboard returns the system clipboard
 	//
 	// Deprecated: use App.Clipboard() instead.
