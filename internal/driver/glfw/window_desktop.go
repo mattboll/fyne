@@ -824,10 +824,14 @@ func (w *window) create() {
 		glfw.WindowHint(glfw.Floating, glfw.False)
 	}
 	glfw.WindowHint(glfw.AutoIconify, glfw.False)
+	// Window hints are global state in GLFW: set this one for every window so a
+	// transparent window does not make the ones created after it transparent.
 	if w.transparent {
 		glfw.WindowHint(glfw.TransparentFramebuffer, glfw.True)
 		glfw.WindowHint(glfw.AlphaBits, 8)
 		w.canvas.transparentBg = true
+	} else {
+		glfw.WindowHint(glfw.TransparentFramebuffer, glfw.False)
 	}
 	initWindowHints()
 	if build.IsWayland {
